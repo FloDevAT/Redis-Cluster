@@ -1,0 +1,103 @@
+networks:
+  redis_cluster_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/8 
+
+services:
+  redis_master_asia:
+    image: redis:7
+    container_name: redis_master_asia
+    volumes:
+      - ../configs/redis_master_asia/redis.conf:/usr/local/etc/redis/redis.conf
+      - ../configs/redis_master_asia/data:/data
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    networks:
+      redis_cluster_network:
+        ipv4_address: 10.0.10.1
+
+  redis_master_eu:
+    image: redis:7
+    container_name: redis_master_eu
+    volumes:
+      - ../configs/redis_master_eu/redis.conf:/usr/local/etc/redis/redis.conf
+      - ../configs/redis_master_eu/data:/data
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    networks:
+      redis_cluster_network:
+        ipv4_address: 10.0.10.2
+
+  redis_master_us:
+    image: redis:7
+    container_name: redis_master_us
+    volumes:
+      - ../configs/redis_master_us/redis.conf:/usr/local/etc/redis/redis.conf
+      - ../configs/redis_master_us/data:/data
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    networks:
+      redis_cluster_network:
+        ipv4_address: 10.0.10.3
+
+  redis_replicant_asia:
+    image: redis:7
+    container_name: redis_replicant_asia
+    volumes:
+      - ../configs/redis_replicant_asia/redis.conf:/usr/local/etc/redis/redis.conf
+      - ../configs/redis_replicant_asia/data:/data
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    networks:
+      redis_cluster_network:
+        ipv4_address: 10.0.10.4
+
+  redis_replicant_eu:
+    image: redis:7
+    container_name: redis_replicant_eu
+    volumes:
+      - ../configs/redis_replicant_eu/redis.conf:/usr/local/etc/redis/redis.conf
+      - ../configs/redis_replicant_eu/data:/data
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    networks:
+      redis_cluster_network:
+        ipv4_address: 10.0.10.5
+
+  redis_replicant_us:
+    image: redis:7
+    container_name: redis_replicant_us
+    volumes:
+      - ../configs/redis_replicant_us/redis.conf:/usr/local/etc/redis/redis.conf
+      - ../configs/redis_replicant_us/data:/data
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    networks:
+      redis_cluster_network:
+        ipv4_address: 10.0.10.6
+
+  redis_sentinel_asia:
+    image: redis:7
+    container_name: redis_sentinel_asia
+    volumes:
+      - ../configs/redis_sentinel_asia/sentinel.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--sentinel"]
+    networks:
+      redis_cluster_network:
+        ipv4_address: 10.0.10.7
+  
+  redis_sentinel_eu:
+    image: redis:7
+    container_name: redis_sentinel_eu
+    volumes:
+      - ../configs/redis_sentinel_eu/sentinel.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--sentinel"]
+    networks:
+      redis_cluster_network:
+        ipv4_address: 10.0.10.8
+  
+  redis_sentinel_us:
+    image: redis:7
+    container_name: redis_sentinel_us
+    volumes:
+      - ../configs/redis_sentinel_us/sentinel.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--sentinel"]
+    networks:
+      redis_cluster_network:
+        ipv4_address: 10.0.10.9
