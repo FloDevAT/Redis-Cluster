@@ -76,18 +76,23 @@ services:
     image: redis:7
     container_name: redis_sentinel_asia
     volumes:
-      - ../configs/redis_sentinel_asia/sentinel.conf:/usr/local/etc/redis/redis.conf
-    command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--sentinel"]
+      - ../configs/redis_sentinel_asia/redis:/usr/local/etc/redis/:rw
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - "chmod -R 0777 /usr/local/etc/redis/ && exec redis-server /usr/local/etc/redis/redis.conf --sentinel"
     networks:
       redis_cluster_network:
         ipv4_address: 10.0.10.7
+
   
   redis_sentinel_eu:
     image: redis:7
     container_name: redis_sentinel_eu
     volumes:
-      - ../configs/redis_sentinel_eu/sentinel.conf:/usr/local/etc/redis/redis.conf
-    command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--sentinel"]
+      - ../configs/redis_sentinel_eu/redis:/usr/local/etc/redis/:rw
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - "chmod -R 0777 /usr/local/etc/redis/ && exec redis-server /usr/local/etc/redis/redis.conf --sentinel"
     networks:
       redis_cluster_network:
         ipv4_address: 10.0.10.8
@@ -96,8 +101,11 @@ services:
     image: redis:7
     container_name: redis_sentinel_us
     volumes:
-      - ../configs/redis_sentinel_us/sentinel.conf:/usr/local/etc/redis/redis.conf
-    command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--sentinel"]
+      - ../configs/redis_sentinel_us/redis:/usr/local/etc/redis/:rw
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - "chmod -R 0777 /usr/local/etc/redis/ && exec redis-server /usr/local/etc/redis/redis.conf --sentinel"
     networks:
       redis_cluster_network:
         ipv4_address: 10.0.10.9
+
